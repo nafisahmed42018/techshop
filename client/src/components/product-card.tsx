@@ -1,40 +1,45 @@
+import React, { FC } from 'react'
 import { Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Rating from './rating'
 
-interface ProductCardProps {
-  id: string
-  img: string
+interface Product {
+  _id: string
   name: string
-  price: number
+  image: string
   rating: number
   numReviews: number
+  price: number
 }
 
-const ProductCard = ({
-  id,
-  name,
-  price,
-  img,
-  rating,
-  numReviews,
-}: ProductCardProps) => {
+interface ProductCardProps {
+  product: Product
+}
+
+const ProductCard: FC<ProductCardProps> = ({ product }) => {
   return (
     <Card>
-      <Link to={`/product/${id}`}>
-        <Card.Img src={`${img}`} variant="top" />
+      <Link to={`/product/${product._id}`}>
+        <Card.Img src={`${product.image}`} variant="top" />
       </Link>
       <Card.Body>
-        <Link to={`/product/${id}`}>
-          <Card.Title as="div" className="product-title">
-            <strong>{name}</strong>
+        <Link to={`/product/${product._id}`}>
+          <Card.Title
+            as="h6"
+            className="product-title"
+            title={`${product.name}`}
+          >
+            <strong>{product.name}</strong>
           </Card.Title>
         </Link>
         <Card.Text as="div">
-          <Rating value={rating} text={`${numReviews} reviews`} />
+          <Rating
+            value={product.rating}
+            text={`${product.numReviews} reviews`}
+          />
         </Card.Text>
         <Card.Text as="h4">
-          <div>{price}</div>
+          <div>{product.price}</div>
         </Card.Text>
       </Card.Body>
     </Card>

@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "mern-techshop",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,10 +13,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
+    "dotenv": "^16.4.2",
     "nodemon": "^3.0.3"
   }
 }
