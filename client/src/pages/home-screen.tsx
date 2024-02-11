@@ -13,7 +13,9 @@ const HomeScreen = () => {
               id={product._id}
               name={product.name}
               img={product.image}
-              price={product.price.toString()}
+              price={product.price}
+              rating={product.rating}
+              numReviews={product.numReviews}
             />
           </Col>
         ))}

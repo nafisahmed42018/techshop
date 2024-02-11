@@ -1,24 +1,38 @@
 import { Card } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import Rating from './rating'
 
 interface ProductCardProps {
   id: string
   img: string
   name: string
-  price: string
+  price: number
+  rating: number
+  numReviews: number
 }
 
-const ProductCard = ({ id, name, price, img }: ProductCardProps) => {
+const ProductCard = ({
+  id,
+  name,
+  price,
+  img,
+  rating,
+  numReviews,
+}: ProductCardProps) => {
   return (
     <Card>
-      <a href={`/product/${id}`}>
+      <Link to={`/product/${id}`}>
         <Card.Img src={`${img}`} variant="top" />
-      </a>
+      </Link>
       <Card.Body>
-        <a href={`/product/${id}`}>
-          <Card.Title as="div">
+        <Link to={`/product/${id}`}>
+          <Card.Title as="div" className="product-title">
             <strong>{name}</strong>
           </Card.Title>
-        </a>
+        </Link>
+        <Card.Text as="div">
+          <Rating value={rating} text={`${numReviews} reviews`} />
+        </Card.Text>
         <Card.Text as="h4">
           <div>{price}</div>
         </Card.Text>
