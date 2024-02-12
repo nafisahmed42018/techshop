@@ -20,9 +20,7 @@ const HomeScreen: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data } = await axios.get<Product[]>(
-          'http://localhost:5000/api/products',
-        )
+        const { data } = await axios.get<Product[]>('/api/products')
         setProducts(data)
       } catch (error) {
         console.error('Error fetching products:', error)

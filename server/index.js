@@ -1,8 +1,10 @@
 import express from 'express'
-import products from './data/products.js'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
+import productRoutes from './routes/product-routes.js'
+import { errorHandler, notFound } from './middleware/error-middleware.js'
+
 dotenv.config()
 
 const PORT = process.env.PORT || 5000
@@ -10,15 +12,10 @@ const app = express()
 connectDB()
 app.use(cors())
 
-app.get('/api/products', (req, res) => {
-  res.json(products)
-})
-app.get('/api/products/:id', (req, res) => {
-  const product = products.find((p) => p._id === req.params.id)
+app.use('/api/products', productRoutes)
 
-  res.json(product)
-})
-
+app.use(notFound)
+app.use(errorHandler)
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

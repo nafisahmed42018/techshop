@@ -23,9 +23,7 @@ const ProductScreen: React.FC = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/products/${productId}`,
-        )
+        const { data } = await axios.get(`/api/products/${productId}`)
         setProduct(data)
       } catch (error) {
         console.error('Error fetching product:', error)
