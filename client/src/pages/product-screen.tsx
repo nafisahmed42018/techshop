@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap'
 import Rating from '../components/rating'
-import axios from 'axios'
+import { useGetProductDetailsQuery } from '../slices/products-api-slice'
+import Loader from '../components/loader'
+import Message from '../components/message'
 
 interface Product {
   _id: string
@@ -16,21 +18,11 @@ interface Product {
 }
 
 const ProductScreen: React.FC = () => {
-  const [product, setProduct] = useState<Product | {}>({})
-
   const { id: productId } = useParams<{ id: string }>()
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const { data } = await axios.get(`/api/products/${productId}`)
-        setProduct(data)
-      } catch (error) {
-        console.error('Error fetching product:', error)
-      }
-    }
-    fetchProduct()
-  }, [productId])
+  const { data: product, isLoading, error } = useGetProductDetailsQuery(
+    productId,
+  )
 
   return (
     <>
@@ -40,77 +32,85 @@ const ProductScreen: React.FC = () => {
       </Link>
 
       {/* Product Details Display */}
-      <Row>
-        <Col md={5}>
-          {/* Product Image */}
-          <Image
-            src={(product as Product).image}
-            alt={(product as Product).name}
-            fluid
-          />
-        </Col>
-        <Col md={4}>
-          {/* Product Information */}
-          <ListGroup variant="flush">
-            {/* Product Name */}
-            <ListGroup.Item>
-              <h3>{(product as Product).name}</h3>
-            </ListGroup.Item>
-            {/* Product Rating */}
-            <ListGroup.Item>
-              <Rating
-                value={(product as Product).rating}
-                text={`${(product as Product).numReviews} reviews`}
+      {isLoading ? (
+        <Loader />
+      ) : error && 'error' in error ? (
+        <Message variant="danger">{error.error || 'An error occurred'}</Message>
+      ) : (
+        <>
+          <Row>
+            <Col md={5}>
+              {/* Product Image */}
+              <Image
+                src={(product as Product).image}
+                alt={(product as Product).name}
+                fluid
               />
-            </ListGroup.Item>
-            {/* Product Price */}
-            <ListGroup.Item>
-              Price: ${(product as Product).price}
-            </ListGroup.Item>
-            {/* Product Description */}
-            <ListGroup.Item>
-              Description: {(product as Product).description}
-            </ListGroup.Item>
-          </ListGroup>
-        </Col>
-        <Col md={3}>
-          {/* Product Price and Stock Status */}
-          <Card>
-            <ListGroup variant="flush">
-              {/* Price */}
-              <ListGroup.Item>
-                <Row>
-                  <Col>Price:</Col>
-                  <Col>
-                    <strong>${(product as Product).price}</strong>
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-              {/* Stock Status */}
-              <ListGroup.Item>
-                <Row>
-                  <Col>Status:</Col>
-                  <Col>
-                    {(product as Product).countInStock > 0
-                      ? 'In Stock'
-                      : 'Out Of Stock'}
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-              {/* Add to Cart Button */}
-              <ListGroup.Item>
-                <Button
-                  className="btn-block"
-                  type="button"
-                  disabled={(product as Product).countInStock === 0}
-                >
-                  Add To Cart
-                </Button>
-              </ListGroup.Item>
-            </ListGroup>
-          </Card>
-        </Col>
-      </Row>
+            </Col>
+            <Col md={4}>
+              {/* Product Information */}
+              <ListGroup variant="flush">
+                {/* Product Name */}
+                <ListGroup.Item>
+                  <h3>{(product as Product).name}</h3>
+                </ListGroup.Item>
+                {/* Product Rating */}
+                <ListGroup.Item>
+                  <Rating
+                    value={(product as Product).rating}
+                    text={`${(product as Product).numReviews} reviews`}
+                  />
+                </ListGroup.Item>
+                {/* Product Price */}
+                <ListGroup.Item>
+                  Price: ${(product as Product).price}
+                </ListGroup.Item>
+                {/* Product Description */}
+                <ListGroup.Item>
+                  Description: {(product as Product).description}
+                </ListGroup.Item>
+              </ListGroup>
+            </Col>
+            <Col md={3}>
+              {/* Product Price and Stock Status */}
+              <Card>
+                <ListGroup variant="flush">
+                  {/* Price */}
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Price:</Col>
+                      <Col>
+                        <strong>${(product as Product).price}</strong>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                  {/* Stock Status */}
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Status:</Col>
+                      <Col>
+                        {(product as Product).countInStock > 0
+                          ? 'In Stock'
+                          : 'Out Of Stock'}
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                  {/* Add to Cart Button */}
+                  <ListGroup.Item>
+                    <Button
+                      className="btn-block"
+                      type="button"
+                      disabled={(product as Product).countInStock === 0}
+                    >
+                      Add To Cart
+                    </Button>
+                  </ListGroup.Item>
+                </ListGroup>
+              </Card>
+            </Col>
+          </Row>
+        </>
+      )}
     </>
   )
 }

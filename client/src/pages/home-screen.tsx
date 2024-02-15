@@ -1,6 +1,8 @@
 import { Col, Row } from 'react-bootstrap'
 import ProductCard from '../components/product-card'
 import { useGetProductsQuery } from '../slices/products-api-slice'
+import Loader from '../components/loader'
+import Message from '../components/message'
 
 interface Product {
   _id: string
@@ -19,9 +21,9 @@ const HomeScreen: React.FC = () => {
   return (
     <>
       {isLoading ? (
-        <h2>Loading....</h2>
+        <Loader />
       ) : error && 'error' in error ? (
-        <div>{error.error || 'An error occurred'}</div>
+        <Message variant="danger">{error.error || 'An error occurred'}</Message>
       ) : (
         <>
           <h2>Latest Products</h2>
