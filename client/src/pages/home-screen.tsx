@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import ProductCard from '../components/product-card'
-import axios from 'axios'
+import { useGetProductsQuery } from '../slices/products-api-slice'
 
 interface Product {
   _id: string
@@ -15,31 +14,26 @@ interface Product {
 }
 
 const HomeScreen: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([])
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const { data } = await axios.get<Product[]>('/api/products')
-        setProducts(data)
-      } catch (error) {
-        console.error('Error fetching products:', error)
-      }
-    }
-
-    fetchProducts()
-  }, [])
+  const { data: products, isLoading, error } = useGetProductsQuery({})
 
   return (
     <>
-      <h2>Latest Products</h2>
-      <Row className="row-gap-4">
-        {products.map((product: Product, index: number) => (
-          <Col sm={12} md={6} lg={4} xl={3} key={index}>
-            <ProductCard product={product} />
-          </Col>
-        ))}
-      </Row>
+      {isLoading ? (
+        <h2>Loading....</h2>
+      ) : error && 'error' in error ? (
+        <div>{error.error || 'An error occurred'}</div>
+      ) : (
+        <>
+          <h2>Latest Products</h2>
+          <Row className="row-gap-4">
+            {products.map((product: Product, index: number) => (
+              <Col sm={12} md={6} lg={4} xl={3} key={index}>
+                <ProductCard product={product} />
+              </Col>
+            ))}
+          </Row>
+        </>
+      )}
     </>
   )
 }
