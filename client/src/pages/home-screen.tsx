@@ -3,17 +3,7 @@ import ProductCard from '../components/product-card'
 import { useGetProductsQuery } from '../slices/products-api-slice'
 import Loader from '../components/loader'
 import Message from '../components/message'
-
-interface Product {
-  _id: string
-  name: string
-  image: string
-  description: string
-  price: number
-  countInStock: number
-  rating: number
-  numReviews: number
-}
+import { Product } from '../types'
 
 const HomeScreen: React.FC = () => {
   const { data: products, isLoading, error } = useGetProductsQuery({})
