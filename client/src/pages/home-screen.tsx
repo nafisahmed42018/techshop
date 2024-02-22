@@ -10,6 +10,8 @@ const HomeScreen: React.FC = () => {
 
   return (
     <>
+      <h1>Welcome to TechShop</h1>
+
       {isLoading ? (
         <Loader />
       ) : error && 'error' in error ? (

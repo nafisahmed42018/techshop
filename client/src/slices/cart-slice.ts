@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Product, cartItem } from '../types'
+import { cartItem } from '../types'
 import { updateCart } from '../utils/cart-utils'
 
 const initialState = localStorage.getItem('cart')

@@ -92,11 +92,11 @@ const CartScreen = () => {
               </h2>
               <Row>
                 <Col>Item Price:</Col>
-                <Col>${itemsPrice}</Col>
+                <Col>${itemsPrice || 0.0}</Col>
               </Row>
               <Row>
                 <Col>Tax:</Col>
-                <Col>${taxPrice}</Col>
+                <Col>${taxPrice || 0.0}</Col>
               </Row>
               {cartItems.length !== 0 && (
                 <>
