@@ -17,4 +17,5 @@ export type cartItem = {
   countInStock: number
   rating: number
   numReviews: number
+  quantity: number
 }
