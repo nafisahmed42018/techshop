@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import connectDB from './config/db.js'
 import productRoutes from './routes/product-routes.js'
 import userRoutes from './routes/user-routes.js'
+import orderRoutes from './routes/order-routes.js'
 import { errorHandler, notFound } from './middleware/error-middleware.js'
 
 dotenv.config()
@@ -23,6 +24,7 @@ app.use(cookieParser())
 
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/orders', orderRoutes)
 
 app.use(notFound)
 app.use(errorHandler)
