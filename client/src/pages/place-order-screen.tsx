@@ -23,6 +23,7 @@ const PlaceOrderScreen = () => {
     } else if (!cart.paymentMethod) {
       navigate('/payment')
     }
+    console.log(cart)
   }, [cart.paymentMethod, cart.shippingAddress.address, navigate])
 
   const placeOrderHandler = async () => {
@@ -137,7 +138,7 @@ const PlaceOrderScreen = () => {
                 <Button
                   type="button"
                   className="btn-block"
-                  disabled={cart.cartItems === 0}
+                  disabled={cart.cartItems.length === 0}
                   onClick={placeOrderHandler}
                 >
                   Place Order
