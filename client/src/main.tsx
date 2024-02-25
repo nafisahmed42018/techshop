@@ -23,6 +23,7 @@ import PrivateRoute from './components/private-route.tsx'
 import PaymentScreen from './pages/payment-screen.tsx'
 import PlaceOrderScreen from './pages/place-order-screen.tsx'
 import OrderScreen from './pages/order-screen.tsx'
+import ProfileScreen from './pages/profile-screen.tsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,6 +38,7 @@ const router = createBrowserRouter(
         <Route path="/payment" element={<PaymentScreen />} />
         <Route path="/placeorder" element={<PlaceOrderScreen />} />
         <Route path="/order/:id" element={<OrderScreen />} />
+        <Route path="/profile" element={<ProfileScreen />} />
       </Route>
     </Route>,
   ),
