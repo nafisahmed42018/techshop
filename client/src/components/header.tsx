@@ -77,7 +77,7 @@ const Header: React.FC = () => {
               {/* Admin Links */}
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title="Admin" id="adminmenu">
-                  <LinkContainer to="/admin/productlist">
+                  <LinkContainer to="/admin/productlist/1">
                     <NavDropdown.Item>Products</NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to="/admin/orderlist">
