@@ -8,6 +8,7 @@ import FormContainer from '../../components/form-container'
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
+  useUploadProductImageMutation,
 } from '../../slices/products-api-slice'
 
 const ProductEditScreen = () => {
@@ -35,6 +36,11 @@ const ProductEditScreen = () => {
     { isLoading: loadingUpdate },
   ] = useUpdateProductMutation()
 
+  const [
+    uploadProductImage,
+    { isLoading: loadingUpload },
+  ] = useUploadProductImageMutation()
+
   const submitHandler = async (e: any) => {
     e.preventDefault()
     try {
@@ -51,6 +57,19 @@ const ProductEditScreen = () => {
       toast.success('Product updated')
       refetch()
       navigate('/admin/productlist')
+    } catch (err) {
+      // @ts-ignore
+      toast.error(err?.data?.message || err.error)
+    }
+  }
+
+  const uploadFileHandler = async (e: any) => {
+    const formData = new FormData()
+    formData.append('image', e.target.files[0])
+    try {
+      const res = await uploadProductImage(formData).unwrap()
+      toast.success(res.message)
+      setImage(res.image)
     } catch (err) {
       // @ts-ignore
       toast.error(err?.data?.message || err.error)
@@ -111,12 +130,13 @@ const ProductEditScreen = () => {
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
               ></Form.Control>
-              {/* <Form.Control
+              <Form.Control
+                // @ts-ignore
                 label="Choose File"
                 onChange={uploadFileHandler}
                 type="file"
               ></Form.Control>
-              {loadingUpload && <Loader />} */}
+              {loadingUpload && <Loader />}
             </Form.Group>
 
             <Form.Group controlId="brand">
