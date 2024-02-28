@@ -28,7 +28,7 @@ const UserEditScreen = () => {
       setEmail(user.email)
       setIsAdmin(user.isAdmin)
     }
-    console.log(user)
+    // console.log(user)
   }, [user])
   const submitHandler = async (e: any) => {
     e.preventDefault()

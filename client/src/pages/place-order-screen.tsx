@@ -23,7 +23,7 @@ const PlaceOrderScreen = () => {
     } else if (!cart.paymentMethod) {
       navigate('/payment')
     }
-    console.log(cart)
+    // console.log(cart)
   }, [cart.paymentMethod, cart.shippingAddress.address, navigate])
 
   const placeOrderHandler = async () => {
