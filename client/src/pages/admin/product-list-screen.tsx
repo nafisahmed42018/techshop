@@ -6,9 +6,9 @@ import Loader from '../../components/loader'
 import Message from '../../components/message'
 import {
   useCreateProductMutation,
+  useDeleteProductMutation,
   useGetProductsQuery,
 } from '../../slices/products-api-slice'
-
 
 const ProductListScreen = () => {
   const { data: products, isLoading, error, refetch } = useGetProductsQuery({})
@@ -17,11 +17,16 @@ const ProductListScreen = () => {
     { isLoading: loadingCreate },
   ] = useCreateProductMutation()
 
- 
+  const [
+    deleteProduct,
+    { isLoading: loadingDelete },
+  ] = useDeleteProductMutation()
+
   const createProductHandler = async () => {
     if (window.confirm('Are you sure you want to create a new product?')) {
       try {
         await createProduct({})
+        toast.success('Product Deleted')
         refetch()
       } catch (err) {
         // @ts-ignore
@@ -29,7 +34,17 @@ const ProductListScreen = () => {
       }
     }
   }
-  const deleteHandler = (id: string) => {}
+  const deleteHandler = async (id: string) => {
+    if (window.confirm('Are you sure')) {
+      try {
+        await deleteProduct(id)
+        refetch()
+      } catch (err) {
+        // @ts-ignore
+        toast.error(err?.data?.message || err.error)
+      }
+    }
+  }
   return (
     <>
       <Row className="align-items-center">
@@ -44,7 +59,7 @@ const ProductListScreen = () => {
       </Row>
 
       {loadingCreate && <Loader />}
-      {/* {loadingDelete && <Loader />} */}
+      {loadingDelete && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (
