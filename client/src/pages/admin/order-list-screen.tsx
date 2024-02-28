@@ -4,10 +4,14 @@ import { FaTimes } from 'react-icons/fa'
 import Loader from '../../components/loader'
 import Message from '../../components/message'
 import { useGetOrdersQuery } from '../../slices/orders-api-slice'
+import { useEffect } from 'react'
 
 const OrderListScreen = () => {
-  const { data: orders, isLoading, error } = useGetOrdersQuery({})
+  const { data: orders, isLoading, error, refetch } = useGetOrdersQuery({})
 
+  useEffect(() => {
+    refetch()
+  }, [])
   return (
     <>
       <h1>Orders</h1>
